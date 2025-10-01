@@ -55,7 +55,6 @@ jobs:
           l3build check -e ${{ matrix.engine }}
           l3build doc
           l3build ctan
-          l3build zip
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
