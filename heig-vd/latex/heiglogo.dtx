@@ -239,20 +239,17 @@ For comparison, here below are samples of the three fonts. We notice that TeX Gy
 %    \begin{macrocode}
 \RequirePackage{tikz}
 %    \end{macrocode}
-% Fontspec is used to load and manage the Arial font (or Helvetica as a fallback).
+% Fontspec is used to load and manage the TeX Gyre Heros font.
 %    \begin{macrocode}
 \RequirePackage{fontspec}
 
 %    \end{macrocode}
-% We define a new font family \cs{heiglogoFont} using Arial Bold for bold text and Arial for regular text. Helvetica Bold is provided as a fallback if Arial is not available.
+% We define a new font family \cs{heiglogoFont} using TeX Gyre Heros, a Helvetica-compatible font.
 %    \begin{macrocode}
 \newfontfamily\heiglogoFont{TeX Gyre Heros}[
     BoldFont = * Bold,
     UprightFont = * ,
     NFSSFamily = heiglogo,
-    FontFace = {b}{n}{TeX Gyre Heros},
-    FontFace = {b}{n}{Arial Bold}, % fallback
-    FontFace = {b}{n}{Helvetica Bold}, % fallback
 ]
 
 %    \end{macrocode}
