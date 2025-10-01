@@ -2,7 +2,10 @@ name: build-test-release
 
 on:
   push:
-    tags: ["v*.*.*"]
+    branches:
+      - "**"
+    tags:
+      - "v*.*.*"
   pull_request:
   workflow_dispatch:
 
@@ -58,6 +61,7 @@ jobs:
           l3build ctan
 
       - name: Upload artifacts
+        if: matrix.engine == 'luatex'
         uses: actions/upload-artifact@v4
         with:
           name: tonpkg-artifacts
