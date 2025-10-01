@@ -38,6 +38,7 @@ jobs:
             xcolor
             pgf
             kvoptions
+            ltxcmds
 
       - name: Build & test
         run: |
