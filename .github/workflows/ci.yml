@@ -37,6 +37,7 @@ jobs:
             parskip
             xcolor
             pgf
+            kvoptions
 
       - name: Build & test
         run: |
