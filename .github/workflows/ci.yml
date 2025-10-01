@@ -39,6 +39,7 @@ jobs:
             pgf
             kvoptions
             ltxcmds
+            kvsetkeys
 
       - name: Build & test
         run: |
