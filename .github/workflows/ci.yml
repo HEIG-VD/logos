@@ -24,6 +24,7 @@ jobs:
             latex-bin
             latex
             tools
+            collection-binextra
             xetex
             luatex
             l3build
@@ -45,6 +46,7 @@ jobs:
             hyperref
             epstopdf-pkg
             tex-gyre
+            makeindex
 
       - name: Build & test
         run: |
