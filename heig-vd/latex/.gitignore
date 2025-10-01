@@ -7,3 +7,5 @@ heiglogo.pdf
 *.fls
 *.fdb_latexmk
 tex/
+*-ctan.zip
+version.tex

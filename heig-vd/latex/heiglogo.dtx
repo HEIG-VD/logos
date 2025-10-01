@@ -35,6 +35,8 @@
 \usepackage{listings}
 \usepackage{graphicx}
 \usepackage{parskip}
+
+\input{version.tex}
 \lstset{basicstyle=\ttfamily,breaklines=true,language=[LaTeX]TeX}
 
 \frenchspacing
@@ -213,7 +215,7 @@ For comparison, here below are samples of the three fonts. We notice that TeX Gy
 % \section{Source code}
 %    \begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}[2022-06-01]
-\ProvidesPackage{heiglogo}[2025/09/30 v1.0 HEIG-VD Logo with options]
+\ProvidesPackage{heiglogo}[\HeigGitDate\space v\HeigGitTag\space HEIG-VD Logo with options]
 %    \end{macrocode}
 % As we use TikZ and fontspec with custom fonts, we need to ensure that the document is compiled with XeLaTeX or LuaLaTeX.
 %    \begin{macrocode}

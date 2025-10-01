@@ -56,6 +56,7 @@ jobs:
         run: |
           tlmgr update --self --all || true
           cd heig-vd/latex
+          sh version.sh
 
           l3build check -e ${{ matrix.engine }}
           l3build doc
