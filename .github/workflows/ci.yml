@@ -36,6 +36,7 @@ jobs:
             listings
             parskip
             xcolor
+            tikz
 
       - name: Build & test
         run: |
