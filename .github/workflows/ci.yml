@@ -35,6 +35,7 @@ jobs:
             fontspec
             listings
             parskip
+            xcolor
 
       - name: Build & test
         run: |
