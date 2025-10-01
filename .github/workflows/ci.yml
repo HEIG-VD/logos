@@ -2,7 +2,10 @@ name: build-test-release
 
 on:
   push:
-    tags: ["v*.*.*"]
+    branches:
+      - "**"
+    tags:
+      - "v*.*.*"
   pull_request:
   workflow_dispatch:
 
@@ -24,35 +27,49 @@ jobs:
             latex-bin
             latex
             tools
+            collection-binextra
             xetex
             luatex
             l3build
             geometry
             eukdate
             graphics
+            graphics-def
             booktabs
             multirow
             fontspec
             listings
             parskip
+            xcolor
+            pgf
+            kvoptions
+            ltxcmds
+            kvsetkeys
+            etoolbox
+            hypdoc
+            hyperref
+            epstopdf-pkg
+            tex-gyre
+            makeindex
 
-      - name: Build & test
+      - name: Build
         run: |
           tlmgr update --self --all || true
           cd heig-vd/latex
-          texlua build.lua check -e ${{ matrix.engine }}
-          texlua build.lua doc
-          texlua build.lua ctan
-          texlua build.lua zip
+
+          l3build check -e ${{ matrix.engine }}
+          l3build doc
+          l3build ctan
 
       - name: Upload artifacts
+        if: matrix.engine == 'luatex'
         uses: actions/upload-artifact@v4
         with:
-          name: tonpkg-artifacts
+          name: heiglogo-artifacts
           path: |
-            heig-vd/latex/build/distrib/*.zip
-            heig-vd/latex/build/doc/*.pdf
-            heig-vd/latex/build/*.zip
+            heig-vd/latex/build/distrib/ctan/heiglogo-ctan.zip
+            heig-vd/latex/build/doc/heiglogo.pdf
+            heig-vd/latex/build/local/heiglogo.sty
 
   release:
     needs: build
@@ -61,10 +78,13 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: tonpkg-artifacts
+          name: heiglogo-artifacts
           path: artifacts
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: artifacts/**/*.zip
+          files: |
+            artifacts/**/*.zip
+            artifacts/**/*.pdf
+            artifacts/**/*.sty
