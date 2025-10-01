@@ -64,11 +64,11 @@ jobs:
         if: matrix.engine == 'luatex'
         uses: actions/upload-artifact@v4
         with:
-          name: tonpkg-artifacts
+          name: heiglogo-artifacts
           path: |
-            heig-vd/latex/build/distrib/*.zip
-            heig-vd/latex/build/doc/*.pdf
-            heig-vd/latex/build/*.zip
+            heig-vd/latex/build/distrib/ctan/*.zip
+            heig-vd/latex/build/doc/heiglogo.pdf
+            heig-vd/latex/build/local/heiglogo.sty
 
   release:
     needs: build
@@ -77,10 +77,13 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: tonpkg-artifacts
+          name: heiglogo-artifacts
           path: artifacts
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: artifacts/**/*.zip
+          files: |
+            artifacts/**/*.zip
+            artifacts/**/heiglogo.pdf
+            artifacts/**/heiglogo.sty
