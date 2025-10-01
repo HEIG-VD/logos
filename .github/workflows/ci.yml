@@ -31,6 +31,7 @@ jobs:
             geometry
             eukdate
             graphics
+            graphics-def
             booktabs
             multirow
             fontspec
