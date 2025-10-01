@@ -1,0 +1,508 @@
+% \iffalse meta-comment
+%
+% © HEIG-VD Yves Chevallier 2025
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3c
+% of this license or (at your option) any later version.
+% The latest version of this license is in:
+%
+%    http://www.latex-project.org/lppl.txt
+%
+% and version 1.3c or later is part of all distributions of LaTeX,
+% version 2005/12/01 or later.
+%
+% This file has the LPPL maintenance status "maintained".
+%
+% The Current Maintainer of this work is Yves Chevallier.
+%
+% This work consists of the files heiglogo.dtx and heiglogo.ins,
+% and the derived file heiglogo.sty.
+%
+% \fi
+% \CheckSum{466}
+%
+% \iffalse
+%<*driver>
+\documentclass{ltxdoc}
+\usepackage[a4paper]{geometry}
+\usepackage{heiglogo}
+\usepackage{eukdate}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{fontspec}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{parskip}
+\lstset{basicstyle=\ttfamily,breaklines=true,language=[LaTeX]TeX}
+
+\frenchspacing
+\EnableCrossrefs
+\RecordChanges
+\begin{document}
+\GetFileInfo{heiglogo.sty}
+\DoNotIndex{}
+\makeatletter
+\title{The \textsf{heiglogo} package}
+\author{Prof. Yves Chevallier\\\texttt{yves.chevallier@heig-vd.ch}}
+\date{\today\linebreak v.~\expandafter\@gobble\fileversion}
+\makeatother
+\maketitle
+\section{Introduction}
+The \textsf{heiglogo} package provides the official \textbf{HEIG-VD} (Haute École d'Ingénierie et de Gestion du Canton de Vaud)
+logo for use in XeLaTeX or LuaLaTeX documents.\par
+It offers flexible placement options, scalable size, and the possibility to add a title and subtitle next to the logo.
+Colors can be set to black (default) or the official red (Pantone 485 C).\par
+
+The package is implemented with TikZ for the vector logo, \textsf{fontspec} for text rendering, and expl3 keys for customization.
+
+\section{TL;DR}
+
+To use the package, compile your document with XeLaTeX or LuaLaTeX and include the package in your preamble:
+
+\begin{lstlisting}
+\usepackage{heiglogo}
+
+% Place the logo at the top-left of the page
+\logo
+
+% Red logo with title and subtitle
+\logo[color, relative, height=1.5cm]{
+    Department of Engineering}{Bachelor of Science}
+
+% Change defaults globally
+\heiglogoSetup{
+  color,
+  height=2.2cm,
+  top=15mm,
+  textwidth=4cm
+}
+\end{lstlisting}
+
+Using:
+
+\begin{lstlisting}
+\begin{center}
+\logo[relative, height=1.5cm]{Title}{Subtitle}
+\end{center}
+\end{lstlisting}
+This will produce the following output:
+
+\begin{center}
+\logo[relative, height=1.5cm]{Title}{Subtitle}
+\end{center}
+
+\section{Package options}
+
+The package provides the following options to customize the logo appearance and placement:
+
+\begin{description}
+    \item[\texttt{height=\textit{dim}}] Sets the height of the logo. Default is \texttt{1.8cm}.
+    \item[\texttt{left=\textit{dim}}] Sets the left margin when using absolute positioning. Default is \texttt{10mm}.
+    \item[\texttt{right=\textit{dim}}] Sets the right margin when using absolute positioning. Default is \texttt{-1pt} (undefined, meaning left margin is used).
+    \item[\texttt{top=\textit{dim}}] Sets the top margin when using absolute positioning. Default is \texttt{10mm}.
+    \item[\texttt{relative}] If set, the logo is placed relative to the current position. Default is false (absolute positioning).
+    \item[\texttt{color}] If set, the logo is rendered in the official red color (Pantone 485 C). Default is false (black).
+    \item[\texttt{textwidth=\textit{dim}}] Sets the width of the text box for title and subtitle. Default is \texttt{3cm}.
+\end{description}
+
+\section{Examples}
+
+\subsection{Color v.s. Black}
+
+\begin{lstlisting}
+\begin{center}
+\logo[color, relative]\hfil
+\logo[relative]
+\end{center}
+\end{lstlisting}
+
+\begin{center}
+\logo[color, relative]\hfil
+\logo[relative]
+\end{center}
+
+\subsection{Size adjustment}
+
+\begin{lstlisting}
+\begin{center}
+\logo[relative, height=10mm]\hfil
+\logo[relative, height=15mm]\hfil
+\logo[relative, height=20mm]\hfil
+\logo[relative, height=25mm]\hfil
+\end{center}
+\end{lstlisting}
+
+\begin{center}
+\logo[relative, height=10mm]\hfil
+\logo[relative, height=15mm]\hfil
+\logo[relative, height=20mm]\hfil
+\logo[relative, height=25mm]\hfil
+\end{center}
+
+\subsection{Absolute positioning}
+
+\begin{lstlisting}
+\logo[color, height=1cm, left=10mm, top=10mm]
+\logo[height=1cm, right=10mm, top=10mm]
+\end{lstlisting}
+
+\logo[color, height=1cm, left=10mm, top=10mm]
+\logo[height=1cm, right=10mm, top=10mm]
+
+\vskip 2em
+
+Notice that the logo is placed absolutely at the top of the page, regardless of where the command is issued.
+
+\subsection{With title}
+
+You can provide a title next to the logo. The title will be in uppercase and bold.
+
+\begin{lstlisting}
+\begin{center}
+\logo[relative, height=1.0cm]{
+    School\\of\\Engineering\\and\\Management}
+\logo[relative, height=2.0cm]{
+    School\\of\\Engineering\\and\\Management}
+\end{center}
+\end{lstlisting}
+
+\begin{center}
+\logo[relative, height=1.0cm]{
+    School\\of\\Engineering\\and\\Management}
+\logo[relative, height=2.0cm]{
+    School\\of\\Engineering\\and\\Management}
+\end{center}
+
+\subsection{With title and subtitle}
+
+You can provide both a title and a subtitle. The title will be in uppercase and bold, while the subtitle will be in normal case and weight.
+
+\begin{lstlisting}
+\begin{center}
+\logo[relative, height=1.5cm]{HEE}{Health,\\Engineering\\ and Economics}
+\logo[relative, height=1.5cm]{EC+G}{Département\\Environnement\\construit\\et Géoinformation}
+\end{center}
+\end{lstlisting}
+
+\begin{center}
+\logo[relative, height=1.5cm]{HEE}{Health,\\Engineering\\ and Economics}
+\logo[relative, height=1.5cm]{EC+G}{Département\\Environnement\\construit\\et Géoinformation}
+\end{center}
+
+\section{Typeface}
+
+The official \textsc{HEIG-VD} visual identity uses the Circular Black typeface, a commercial font licensed exclusively to the Communication Department.
+
+As a free alternative, the Communication Department recommends using \emph{Arial Bold} (or \emph{Helvetica Bold} if Arial is not available). Both fonts are common on Windows and macOS systems, but they are commercially licensed and therefore not readily available on most Linux distributions.
+
+To ensure broad compatibility and avoid licensing issues, this package defaults to \textbf{TeX Gyre Heros}. This is a free, open-source typeface distributed with TeX Live, designed as a metric and visual replacement for Helvetica, and thus provides a look that is close to Arial Bold.
+
+For comparison, here below are samples of the three fonts. We notice that TeX Gyre Heros is slightly wider than Arial Bold, which is itself slightly wider than Circular Black.
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{fonts.pdf}
+\end{center}
+
+\DocInput{heiglogo.dtx}
+\end{document}
+%</driver>
+%<*package>
+% \fi
+% \section{Source code}
+%    \begin{macrocode}
+\NeedsTeXFormat{LaTeX2e}[2022-06-01]
+\ProvidesPackage{heiglogo}[2025/09/30 v1.0 HEIG-VD Logo with options]
+%    \end{macrocode}
+% As we use TikZ and fontspec with custom fonts, we need to ensure that the document is compiled with XeLaTeX or LuaLaTeX.
+%    \begin{macrocode}
+\RequirePackage{iftex}
+\ifPDFTeX
+  \PackageError{heiglogo}{
+    This package requires XeLaTeX or LuaLaTeX}{Use xelatex or lualatex.}
+\fi
+%    \end{macrocode}
+% Expl3 keys are used for option management, xparse for command definition, xcolor for color management, tikz for drawing the logo, and fontspec for font handling.
+%    \begin{macrocode}
+\RequirePackage{expl3} % tu utilises l3keys
+%    \end{macrocode}
+% Xparse is used for defining the main command \cs{logo} with optional and mandatory arguments.
+%    \begin{macrocode}
+\RequirePackage{xparse}
+%    \end{macrocode}
+% Xcolor is used for defining the official red color and managing color options.
+%    \begin{macrocode}
+\RequirePackage{xcolor}
+%    \end{macrocode}
+% TikZ is used for drawing the vector logo.
+%    \begin{macrocode}
+\RequirePackage{tikz}
+%    \end{macrocode}
+% Fontspec is used to load and manage the fonts for the title and subtitle.
+%    \begin{macrocode}
+\RequirePackage{fontspec}
+
+%    \end{macrocode}
+% We define a new font family \cs{heiglogoFont} using TeX Gyre Heros, a Helvetica-compatible font.
+%    \begin{macrocode}
+\newfontfamily\heiglogoFont{TeX Gyre Heros}[
+    BoldFont = * Bold,
+    UprightFont = * ,
+    NFSSFamily = heiglogo,
+]
+
+%    \end{macrocode}
+% The official red color (Pantone 485 C) is defined using its HTML hex code.
+%    \begin{macrocode}
+\definecolor{heiglogo@red}{HTML}{e1251b}
+
+% TikZ variables (can be modified via keys)
+\newcommand\heiglogo@curcolor{black}
+\newcommand\heiglogo@height{1.8cm}
+\newcommand\heiglogo@left{10mm}
+\newcommand\heiglogo@right{-1pt} % undefined
+\newcommand\heiglogo@top{10mm}
+\newcommand\heiglogo@textwidth{3cm}
+\newif\ifheiglogo@hastexttitle
+\newif\ifheiglogo@hastextsubtitle
+\newcommand\heiglogo@txt{}
+\newcommand\heiglogo@subtitle{}
+
+%    \end{macrocode}
+% The original logo was extracted in vector format and translated into TikZ commands.
+% The positioning of each vector was rounded to two decimal places for simplicity. It may not be pixel-perfect but is visually very close to the original.
+%    \begin{macrocode}
+\newcommand\heiglogo@draw[2]{%
+    \begin{tikzpicture}[x=0.7pt,y=0.7pt,scale=\heiglogo@scale,inner sep=0,outer sep=0]
+        \fill[\heiglogo@curcolor]
+        (74,18)--(56,18)--(56,12)--(68,12)--(68,12)
+        ..controls(67,7)and(63,5)..(57,5)
+        ..controls(50,5)and(45,10)..(45,17)
+        ..controls(45,24)and(50,30)..(57,30)
+        ..controls(63,30)and(67,27)..(69,23)
+        --(74,25)..controls(71,32)and(65,35)..(57,35)
+        ..controls(47,35)and(39,27)..(39,17)
+        ..controls(39,7)and(47,0)..(57,0)
+        ..controls(62,0)and(66,2)..(69,5)
+        --(69,1)--(74,1)--(74,17)--cycle;
+        \fill[\heiglogo@curcolor]
+        (74,47)--(46,47)--(46,56)--(70,56)--(70,61)
+        --(46,61)--(46,70)--(74,70)--(74,75)
+        --(40,75)--(40,42)--(74,42)--cycle;
+        \fill[\heiglogo@curcolor]
+        (27,61)--(5,61)--(5,75)--(0,75)--(0,42)
+        --(5,42)--(5,56)--(27,56)--(27,42)
+        --(33,42)--(33,75)--(27,75)--cycle;
+        \fill[\heiglogo@curcolor]
+        (19,6)--(19,29)--(33,29)--(33,34)
+        --(0,34)--(0,29)--(13,29)--(13,6)
+        --(0,6)--(0,1)--(33,1)--(33,6)--cycle;
+        \fill[\heiglogo@curcolor]
+        (88,75)--(90,75)--(87,65)--(85,65)
+        --(81,75)--(83,75)--(86,68)--cycle;
+        \fill[\heiglogo@curcolor]
+        (92,65)--(92,75)--(95,75)
+        ..controls(98,75)and(100,73)..(100,70)
+        ..controls(100,67)and(98,65)..(95,65)--cycle;
+        \fill[white]
+        (95,67)..controls(97,67)and(98,68)..(98,70)
+        ..controls(98,72)and(97,73)..(95,73)
+        --(94,73)--(94,67)--cycle;
+
+%    \end{macrocode}
+% If text is present, a vertical bar is drawn next to the logo.
+%    \begin{macrocode}
+        \ifheiglogo@hastexttitle
+            \fill[\heiglogo@curcolor]
+            (115,1)--(114,1)--(114,75)--(115,75)--cycle;
+        \else
+            \ifheiglogo@hastextsubtitle
+                \fill[\heiglogo@curcolor]
+                (115,1)--(114,1)--(114,75)--(115,75)--cycle;
+            \fi
+        \fi
+
+%    \end{macrocode}
+% The title and subtitle are placed next to the logo if provided. The title is in uppercase and bold, while the subtitle is in normal case and weight.
+%    \begin{macrocode}
+        \ifheiglogo@hastexttitle
+        \node[anchor=north west,inner sep=0,outer sep=0] at (125,75)
+        {%
+            \begingroup
+            \color{\heiglogo@curcolor}\heiglogoFont\bfseries
+            \setlength{\parskip}{0pt}%
+            \lineskiplimit=0pt\lineskip=0pt%
+            % impose 5 lignes pile sur la hauteur du logo:
+            \fontsize{\heiglogo@title@size}{\heiglogo@title@baseline}\selectfont
+            \parbox[t][\heiglogo@height][t]{\heiglogo@textwidth}{%
+                \raggedright\MakeUppercase{#1}%
+            }%
+            \endgroup
+        };
+        \fi
+        \ifheiglogo@hastextsubtitle
+        \node[anchor=south west,inner sep=0,outer sep=0] at (125,2)
+        {%
+            \begingroup
+            \color{\heiglogo@curcolor}\heiglogoFont
+            \setlength{\parskip}{0pt}%
+            \lineskiplimit=0pt\lineskip=0pt%
+            \fontsize{\heiglogo@title@size}{\heiglogo@title@baseline}\selectfont
+            \parbox[b][\heiglogo@height][b]{\heiglogo@textwidth}{%
+                \raggedright #2%
+            }%
+            \endgroup
+        };
+        \fi
+    \end{tikzpicture}%
+}
+
+\newcommand\heiglogo@relative[2]{%
+    \begingroup
+    \pgfmathsetmacro{\heiglogo@scale}{\heiglogo@height/52.5pt}%
+    \heiglogo@draw{#1}{#2}%
+    \endgroup
+}
+
+\newcommand\heiglogo@absolute[2]{%
+    \begin{tikzpicture}[remember picture,overlay,inner sep=0,outer sep=0,baseline]
+        \begingroup
+        \pgfmathsetmacro{\heiglogo@scale}{\heiglogo@height/52.5pt}%
+        \ifdim\heiglogo@right>-1pt
+            \node[anchor=north east,inner sep=0,outer sep=0] at
+            ([xshift=-\heiglogo@right,yshift=-\heiglogo@top] current page.north east)
+            {\heiglogo@draw{#1}{#2}};
+        \else
+            \node[anchor=north west,inner sep=0,outer sep=0] at
+            ([xshift=\heiglogo@left,yshift=-\heiglogo@top] current page.north west)
+            {\heiglogo@draw{#1}{#2}};
+        \fi
+        \endgroup
+    \end{tikzpicture}%
+    \vspace*{-\baselineskip}%
+}
+
+% l3keys setup
+\ExplSyntaxOn
+
+% Local variables (per call)
+\dim_new:N  \l_heiglogo_height_dim
+\dim_new:N  \l_heiglogo_left_dim
+\dim_new:N  \l_heiglogo_right_dim
+\dim_new:N  \l_heiglogo_top_dim
+\dim_new:N  \l_heiglogo_textwidth_dim
+\bool_new:N \l_heiglogo_relative_bool
+\bool_new:N \l_heiglogo_color_bool
+\int_new:N \l_heiglogo_lines_int
+\dim_new:N \l_heiglogo_title_baseline_dim
+\dim_new:N \l_heiglogo_title_size_dim
+
+% Global defaults (for the document)
+\dim_new:N  \g_heiglogo_def_height_dim
+\dim_new:N  \g_heiglogo_def_left_dim
+\dim_new:N  \g_heiglogo_def_right_dim
+\dim_new:N  \g_heiglogo_def_top_dim
+\dim_new:N  \g_heiglogo_def_textwidth_dim
+\bool_new:N \g_heiglogo_def_relative_bool
+\bool_new:N \g_heiglogo_def_color_bool
+\int_new:N \g_heiglogo_def_lines_int
+
+% Initial global defaults
+\dim_gset:Nn  \g_heiglogo_def_height_dim    { 1.8cm }
+\dim_gset:Nn  \g_heiglogo_def_left_dim      { 10mm }
+\dim_gset:Nn  \g_heiglogo_def_right_dim     { -1pt } % -1pt => indéfini
+\dim_gset:Nn  \g_heiglogo_def_top_dim       { 10mm }
+\dim_gset:Nn  \g_heiglogo_def_textwidth_dim { 3cm }
+\bool_gset_false:N \g_heiglogo_def_relative_bool
+\bool_gset_false:N \g_heiglogo_def_color_bool
+\int_gset:Nn \g_heiglogo_def_lines_int { 5 }
+
+\keys_define:nn { heiglogo }
+{
+    height    .dim_set:N = \l_heiglogo_height_dim,
+    left      .dim_set:N = \l_heiglogo_left_dim,
+    right     .dim_set:N = \l_heiglogo_right_dim,
+    top       .dim_set:N = \l_heiglogo_top_dim,
+    relative  .bool_set:N = \l_heiglogo_relative_bool,
+    color     .bool_set:N = \l_heiglogo_color_bool,
+    textwidth .dim_set:N  = \l_heiglogo_textwidth_dim,
+    lines     .int_set:N  = \l_heiglogo_lines_int,
+}
+
+\NewDocumentCommand \heiglogoSetup { m }
+{
+    \keys_set:nn { heiglogo / setup } {#1}
+}
+\keys_define:nn { heiglogo / setup }
+{
+    height    .dim_set:N = \g_heiglogo_def_height_dim,
+    left      .dim_set:N = \g_heiglogo_def_left_dim,
+    right     .dim_set:N = \g_heiglogo_def_right_dim,
+    top       .dim_set:N = \g_heiglogo_def_top_dim,
+    relative  .bool_set:N = \g_heiglogo_def_relative_bool,
+    color     .bool_set:N = \g_heiglogo_def_color_bool,
+    textwidth .dim_set:N  = \g_heiglogo_def_textwidth_dim,
+    lines     .int_set:N  = \g_heiglogo_def_lines_int,
+}
+
+\NewDocumentCommand{\logo}{ O{} g g }
+{
+    \group_begin:
+    % 1. Reset defaults
+    \dim_set_eq:NN  \l_heiglogo_height_dim    \g_heiglogo_def_height_dim
+    \dim_set_eq:NN  \l_heiglogo_left_dim      \g_heiglogo_def_left_dim
+    \dim_set_eq:NN  \l_heiglogo_right_dim     \g_heiglogo_def_right_dim
+    \dim_set_eq:NN  \l_heiglogo_top_dim       \g_heiglogo_def_top_dim
+    \dim_set_eq:NN  \l_heiglogo_textwidth_dim \g_heiglogo_def_textwidth_dim
+    \bool_set_eq:NN \l_heiglogo_relative_bool \g_heiglogo_def_relative_bool
+    \bool_set_eq:NN \l_heiglogo_color_bool    \g_heiglogo_def_color_bool
+    \int_set_eq:NN  \l_heiglogo_lines_int     \g_heiglogo_def_lines_int
+
+    % 2. Current call options
+    \keys_set:nn { heiglogo } {#1}
+
+    % 3. Pass to TikZ macros
+    \bool_if:NTF \l_heiglogo_color_bool
+    { \def\heiglogo@curcolor{heiglogo@red} }
+    { \def\heiglogo@curcolor{black} }
+    \edef\heiglogo@height   {\the\l_heiglogo_height_dim}
+    \edef\heiglogo@left     {\the\l_heiglogo_left_dim}
+    \edef\heiglogo@right    {\the\l_heiglogo_right_dim}
+    \edef\heiglogo@top      {\the\l_heiglogo_top_dim}
+    \edef\heiglogo@textwidth{\the\l_heiglogo_textwidth_dim}
+
+
+    \dim_set:Nn \l_heiglogo_title_baseline_dim
+    { (\l_heiglogo_height_dim + 0.1cm) / \l_heiglogo_lines_int }
+    \dim_set:Nn \l_heiglogo_title_size_dim
+    {
+        \fp_to_dim:n
+        { \dim_to_fp:n { \l_heiglogo_title_baseline_dim } / 1.2 }
+    }
+
+    % on exporte en macros "écrites" pour \fontsize
+    \edef\heiglogo@title@baseline{\the\l_heiglogo_title_baseline_dim}
+    \edef\heiglogo@title@size{\the\l_heiglogo_title_size_dim}
+
+    % 4) Optional text
+    \IfNoValueTF{#2}
+  { \heiglogo@hastexttitlefalse \def\heiglogo@txt{} }
+  { \heiglogo@hastexttitletrue  \def\heiglogo@txt{#2} }
+
+    \IfNoValueTF{#3}
+  { \heiglogo@hastextsubtitlefalse \def\heiglogo@subtitle{} }
+  { \heiglogo@hastextsubtitletrue  \def\heiglogo@subtitle{#3} }
+
+    % 5. Relative or absolute placement
+    \bool_if:NTF \l_heiglogo_relative_bool
+    { \heiglogo@relative{\heiglogo@txt}{\heiglogo@subtitle} }
+    { \heiglogo@absolute{\heiglogo@txt}{\heiglogo@subtitle} }
+    \group_end:
+}
+\ExplSyntaxOff
+%    \end{macrocode}
+% \Finale
+%
+\endinput
+%</package>
