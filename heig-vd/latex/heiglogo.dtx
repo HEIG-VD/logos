@@ -33,6 +33,7 @@
 \usepackage{multirow}
 \usepackage{fontspec}
 \usepackage{listings}
+\usepackage{graphicx}
 \usepackage{parskip}
 \lstset{basicstyle=\ttfamily,breaklines=true,language=[LaTeX]TeX}
 
@@ -56,7 +57,7 @@ Colors can be set to black (default) or the official red (Pantone 485 C).\par
 
 The package is implemented with TikZ for the vector logo, \textsf{fontspec} for text rendering, and expl3 keys for customization.
 
-\section{TL; DR}
+\section{TL;DR}
 
 To use the package, compile your document with XeLaTeX or LuaLaTeX and include the package in your preamble:
 
@@ -67,7 +68,8 @@ To use the package, compile your document with XeLaTeX or LuaLaTeX and include t
 \logo
 
 % Red logo with title and subtitle
-\logo[color, relative, height=1.5cm]{Department of Engineering}{Bachelor of Science}
+\logo[color, relative, height=1.5cm]{
+    Department of Engineering}{Bachelor of Science}
 
 % Change defaults globally
 \heiglogoSetup{
@@ -191,8 +193,17 @@ You can provide both a title and a subtitle. The title will be in uppercase and 
 
 \section{Typeface}
 
-In the original graphical identity, the typeface used is Circular Black which is a commercial font and only available to the communication department of HEIG-VD.\par
-As a free alternative, the package uses Arial Bold (or Helvetica Bold if Arial is not available) which is widely available and similar in appearance.
+The official \textsc{HEIG-VD} visual identity uses the Circular Black typeface, a commercial font licensed exclusively to the Communication Department.
+
+As a free alternative, the Communication Department recommends using \emph{Arial Bold} (or \emph{Helvetica Bold} if Arial is not available). Both fonts are common on Windows and macOS systems, but they are commercially licensed and therefore not readily available on most Linux distributions.
+
+To ensure broad compatibility and avoid licensing issues, this package defaults to \textbf{TeX Gyre Heros}. This is a free, open-source typeface distributed with TeX Live, designed as a metric and visual replacement for Helvetica, and thus provides a look that is close to Arial Bold.
+
+For comparison, here below are samples of the three fonts. We notice that TeX Gyre Heros is slightly wider than Arial Bold, which is itself slightly wider than Circular Black.
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{fonts.pdf}
+\end{center}
 
 \DocInput{heiglogo.dtx}
 \end{document}
@@ -235,11 +246,12 @@ As a free alternative, the package uses Arial Bold (or Helvetica Bold if Arial i
 %    \end{macrocode}
 % We define a new font family \cs{heiglogoFont} using Arial Bold for bold text and Arial for regular text. Helvetica Bold is provided as a fallback if Arial is not available.
 %    \begin{macrocode}
-\newfontfamily\heiglogoFont{Arial}[
+\newfontfamily\heiglogoFont{TeX Gyre Heros}[
     BoldFont = * Bold,
     UprightFont = * ,
     NFSSFamily = heiglogo,
-    FontFace = {b}{n}{Arial Bold},
+    FontFace = {b}{n}{TeX Gyre Heros},
+    FontFace = {b}{n}{Arial Bold}, % fallback
     FontFace = {b}{n}{Helvetica Bold}, % fallback
 ]
 
@@ -478,12 +490,12 @@ As a free alternative, the package uses Arial Bold (or Helvetica Bold if Arial i
 
     % 4) Optional text
     \IfNoValueTF{#2}
-    { \heiglogo@hastexttitlefalse \def\heiglogo@txt{} }
-    { \heiglogo@hastexttitletrue  \def\heiglogo@txt{#2} }
+  { \heiglogo@hastexttitlefalse \def\heiglogo@txt{} }
+  { \heiglogo@hastexttitletrue  \def\heiglogo@txt{#2} }
 
     \IfNoValueTF{#3}
-    { \heiglogo@hastextsubtitlefalse \def\heiglogo@subtitle{} }
-    { \heiglogo@hastextsubtitletrue  \def\heiglogo@subtitle{#3} }
+  { \heiglogo@hastextsubtitlefalse \def\heiglogo@subtitle{} }
+  { \heiglogo@hastextsubtitletrue  \def\heiglogo@subtitle{#3} }
 
     % 5. Relative or absolute placement
     \bool_if:NTF \l_heiglogo_relative_bool

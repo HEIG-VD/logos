@@ -40,6 +40,11 @@ jobs:
             kvoptions
             ltxcmds
             kvsetkeys
+            etoolbox
+            hypdoc
+            hyperref
+            epstopdf-pkg
+            tex-gyre
 
       - name: Build & test
         run: |
