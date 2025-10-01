@@ -1,0 +1,70 @@
+name: build-test-release
+
+on:
+  push:
+    tags: ["v*.*.*"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        engine: [luatex, xetex]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install TeX Live
+        uses: zauguin/install-texlive@v3
+        with:
+          packages: >-
+            latex-bin l3build latex-tools latex-base
+            xetex luatex
+            latex-bin
+            l3build
+            latex-tools
+            latex-base
+            geometry
+            eukdate
+            graphics
+            booktabs
+            multirow
+            fontspec
+            listings
+            parskip
+
+      - name: Build & test
+        run: |
+          tlmgr update --self --all || true
+          cd heig-vd/latex
+          texlua build.lua check -e ${{ matrix.engine }}
+          texlua build.lua doc
+          texlua build.lua ctan
+          texlua build.lua zip
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: tonpkg-artifacts
+          path: |
+            heig-vd/latex/build/distrib/*.zip
+            heig-vd/latex/build/doc/*.pdf
+            heig-vd/latex/build/*.zip
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: tonpkg-artifacts
+          path: artifacts
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/**/*.zip
