@@ -21,12 +21,12 @@ jobs:
         uses: zauguin/install-texlive@v3
         with:
           packages: >-
-            latex-bin l3build latex-tools latex-base
-            xetex luatex
             latex-bin
+            latex
+            tools
+            xetex
+            luatex
             l3build
-            latex-tools
-            latex-base
             geometry
             eukdate
             graphics
