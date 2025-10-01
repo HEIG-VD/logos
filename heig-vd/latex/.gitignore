@@ -1,8 +1,12 @@
 build/
 heiglogo.pdf
+heiglogo.sty
 *.aux
 *.log
 *.out
 *.toc
 *.fls
 *.fdb_latexmk
+heiglogo-ctan.zip
+tex/
+*.zip
