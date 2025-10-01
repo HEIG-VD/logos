@@ -10,3 +10,6 @@ typesetexe   = "lualatex"
 
 tdsroot = "texmf"
 tdsdir  = "tex/latex/" .. module
+
+kpse.set_program_name("texlua")
+dofile(kpse.lookup("l3build.lua"))

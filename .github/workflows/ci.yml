@@ -40,10 +40,10 @@ jobs:
         run: |
           tlmgr update --self --all || true
           cd heig-vd/latex
-          texlua build.lua check -e ${{ matrix.engine }}
-          texlua build.lua doc
-          texlua build.lua ctan
-          texlua build.lua zip
+          l3build check -e ${{ matrix.engine }}
+          l3build doc
+          l3build ctan
+          l3build zip
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
