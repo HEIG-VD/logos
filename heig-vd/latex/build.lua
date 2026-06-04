@@ -1,6 +1,6 @@
 module = "heiglogo"
 
-sourcefiles  = {"heiglogo.dtx","heiglogo.ins", "fonts.pdf"}
+sourcefiles  = {"heiglogo.dtx","heiglogo.ins", "fonts.pdf", "version.tex"}
 installfiles = {"heiglogo.sty"}
 typesetfiles = {"heiglogo.dtx"}
 tagfiles     = {"heiglogo.dtx"} -- pour versions
